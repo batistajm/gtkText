@@ -25,7 +25,7 @@ from gettext import gettext as _
 gi.require_version('Gtk', '4.0')
 
 from gi.repository import Gtk, Gio
-from .window import GtkTextWindow
+from .window import GtktextWindow
 
 
 class GtktextApplication(Gtk.Application):
@@ -47,7 +47,7 @@ class GtktextApplication(Gtk.Application):
         """
         win = self.props.active_window
         if not win:
-            win = GtkTextWindow(application=self)
+            win = GtktextWindow(application=self)
         win.present()
 
     def on_about_action(self, *args):

@@ -1,50 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
-  <template class="GtkTextWindow" parent="GtkApplicationWindow">
-    <property name="title">PyText - Éditeur de texte</property>
+  <template class="GtktextWindow" parent="GtkApplicationWindow">
     <property name="default-width">600</property>
     <property name="default-height">400</property>
 
+    <!-- 1. BARRE DE TITRE MODERNE AVEC ICÔNES SYMBOLIQUES -->
+    <child type="titlebar">
+      <object class="GtkHeaderBar" id="barre_titre">
+        <property name="title-widget">
+          <object class="GtkLabel">
+            <property name="label">PyText</property>
+          </object>
+        </property>
+
+        <!-- Bouton Ouvrir (à gauche) -->
+        <child type="start">
+          <object class="GtkButton" id="bouton_ouvrir">
+            <property name="icon-name">document-open-symbolic</property>
+            <property name="tooltip-text">Ouvrir un fichier texte</property>
+            <signal name="clicked" handler="on_bouton_ouvrir_clicked"/>
+          </object>
+        </child>
+
+        <!-- Bouton Statistiques (à droite) -->
+        <child type="end">
+          <object class="GtkButton" id="bouton_action">
+            <property name="icon-name">dialog-information-symbolic</property>
+            <property name="tooltip-text">Analyser le texte (mots et caractères)</property>
+            <signal name="clicked" handler="on_bouton_action_clicked"/>
+          </object>
+        </child>
+
+        <!-- Bouton Enregistrer (à droite) -->
+        <child type="end">
+          <object class="GtkButton" id="bouton_enregistrer">
+            <property name="icon-name">document-save-symbolic</property>
+            <property name="tooltip-text">Enregistrer le fichier sous...</property>
+            <signal name="clicked" handler="on_bouton_enregistrer_clicked"/>
+          </object>
+        </child>
+      </object>
+    </child>
+
+    <!-- 2. CORPS DE LA FENÊTRE -->
     <child>
       <object class="GtkBox">
         <property name="orientation">vertical</property>
         <property name="spacing">6</property>
-        <property name="margin-top">12</property>
-        <property name="margin-bottom">12</property>
-        <property name="margin-start">12</property>
-        <property name="margin-end">12</property>
+        <property name="margin-top">6</property>
+        <property name="margin-bottom">6</property>
+        <property name="margin-start">6</property>
+        <property name="margin-end">6</property>
 
-        <!-- Barre d'outils horizontale pour regrouper les boutons -->
-        <child>
-          <object class="GtkBox">
-            <property name="orientation">horizontal</property>
-            <property name="spacing">6</property>
-
-            <child>
-              <object class="GtkButton" id="bouton_ouvrir">
-                <property name="label">Ouvrir</property>
-                <signal name="clicked" handler="on_bouton_ouvrir_clicked"/>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkButton" id="bouton_enregistrer">
-                <property name="label">Enregistrer</property>
-                <signal name="clicked" handler="on_bouton_enregistrer_clicked"/>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkButton" id="bouton_action">
-                <property name="label">Analyser le texte</property>
-                <signal name="clicked" handler="on_bouton_action_clicked"/>
-              </object>
-            </child>
-          </object>
-        </child>
-
-        <!-- La zone de texte avec défilement -->
+        <!-- Zone de texte avec défilement -->
         <child>
           <object class="GtkScrolledWindow">
             <property name="vexpand">true</property>
@@ -62,7 +71,7 @@
           </object>
         </child>
 
-        <!-- Un label de statut tout en bas -->
+        <!-- Label de statut inférieur -->
         <child>
           <object class="GtkLabel" id="label_info">
             <property name="label">Prêt...</property>
