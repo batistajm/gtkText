@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="GtkTextWindow" parent="GtkApplicationWindow">
+    <property name="title">PyText - Éditeur de texte</property>
+    <property name="default-width">600</property>
+    <property name="default-height">400</property>
+
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <property name="spacing">6</property>
+        <property name="margin-top">12</property>
+        <property name="margin-bottom">12</property>
+        <property name="margin-start">12</property>
+        <property name="margin-end">12</property>
+
+        <!-- Barre d'outils horizontale pour nos boutons -->
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">horizontal</property>
+            <property name="spacing">6</property>
+
+            <child>
+              <object class="GtkButton" id="bouton_ouvrir">
+                <property name="label">Ouvrir</property>
+                <signal name="clicked" handler="on_bouton_ouvrir_clicked"/>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkButton" id="bouton_enregistrer">
+                <property name="label">Enregistrer</property>
+                <signal name="clicked" handler="on_bouton_enregistrer_clicked"/>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkButton" id="bouton_action">
+                <property name="label">Analyser le texte</property>
+                <signal name="clicked" handler="on_bouton_action_clicked"/>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <!-- La zone de texte avec défilement -->
+        <child>
+          <object class="GtkScrolledWindow">
+            <property name="vexpand">true</property>
+            <property name="hexpand">true</property>
+            <property name="has-frame">true</property>
+            <child>
+              <object class="GtkTextView" id="zone_texte">
+                <property name="wrap-mode">word</property>
+                <property name="left-margin">8</property>
+                <property name="right-margin">8</property>
+                <property name="top-margin">8</property>
+                <property name="bottom-margin">8</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <!-- Un label de statut en bas -->
+        <child>
+          <object class="GtkLabel" id="label_info">
+            <property name="label">Prêt...</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+  </template>
+</interface>
+
+

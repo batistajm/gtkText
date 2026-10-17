@@ -1,0 +1,8 @@
+# List of source files containing translatable strings.
+# Please keep this file sorted alphabetically.
+data/com.github.batistajm.gtkText.desktop.in
+data/com.github.batistajm.gtkText.metainfo.xml.in
+data/com.github.batistajm.gtkText.gschema.xml
+src/main.py
+src/window.py
+src/window.ui

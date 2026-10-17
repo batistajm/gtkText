@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=GtkText
+Exec=gtktext
+Icon=com.github.batistajm.gtkText
+Terminal=false
+Type=Application
+Categories=Utility;
+Keywords=GTK;
+StartupNotify=true
+DBusActivatable=true
