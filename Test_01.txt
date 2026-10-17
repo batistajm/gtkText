@@ -1,0 +1,5 @@
+Bienvenue dans PyText !
+Tapez ou ouvrez un fichier texte.
+
+C'est mon premier exercice en python 3 + GTK 4
+Upiiii

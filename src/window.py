@@ -1,22 +1,3 @@
-# window.py
-#
-# Copyright 2026 Joao Batista
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-# SPDX-License-Identifier: GPL-3.0-or-later
-
 import gi
 gi.require_version('Gtk', '4.0')
 from gi.repository import Gtk
@@ -25,39 +6,41 @@ from gi.repository import Gtk
 class GtkTextWindow(Gtk.ApplicationWindow):
     __gtype_name__ = 'GtkTextWindow'
 
+    # Liaison des widgets définis dans le XML par leur ID respectif
     zone_texte = Gtk.Template.Child()
     label_info = Gtk.Template.Child()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        # Texte de bienvenue par défaut dans le Buffer
         buffer = self.zone_texte.get_buffer()
-        buffer.set_text("Bienvenue dans PyText !\nTapez votre texte ici.")
+        buffer.set_text("Bienvenue dans PyText !\nTapez ou ouvrez un fichier texte.")
 
-    # --- NOUVEAU : OUVRIR UN FICHIER ---
+    # --- ACTION : OUVRIR UN FICHIER ---
     @Gtk.Template.Callback()
     def on_bouton_ouvrir_clicked(self, button):
         dialog = Gtk.FileDialog.new()
         dialog.set_title("Ouvrir un fichier texte")
-        # On lance la boîte de dialogue en lui passant la fenêtre actuelle (self)
+        # On affiche la fenêtre de dialogue liée de manière asynchrone à notre fenêtre (self)
         dialog.open(self, None, self.on_open_response)
 
     def on_open_response(self, dialog, result):
         try:
             gfile = dialog.open_finish(result)
-            chemin_fichier = gfile.get_path()
+            chemin_absolu = gfile.get_path()
 
-            # Lecture du fichier avec Python
-            with open(chemin_fichier, 'r', encoding='utf-8') as f:
-                contenu = f.read()
+            # Lecture du fichier avec la fonction standard de Python
+            with open(chemin_absolu, 'r', encoding='utf-8') as f:
+                contenu_lu = f.read()
 
-            # Injection du contenu lu dans le buffer de texte
-            self.zone_texte.get_buffer().set_text(contenu)
-            self.label_info.set_text(f"Fichier ouvert : {gfile.get_basename()}")
+            # Injection du texte lu dans la zone d'édition
+            self.zone_texte.get_buffer().set_text(contenu_lu)
+            self.label_info.set_text(f"Fichier ouvert avec succès : {gfile.get_basename()}")
         except Exception as e:
-            # Gère l'annulation par l'utilisateur ou une erreur de lecture
+            # Gère proprement l'annulation par l'utilisateur ou une erreur d'accès
             self.label_info.set_text("Ouverture annulée ou erreur de lecture.")
 
-    # --- NOUVEAU : ENREGISTRER UN FICHIER ---
+    # --- ACTION : ENREGISTRER UN FICHIER ---
     @Gtk.Template.Callback()
     def on_bouton_enregistrer_clicked(self, button):
         dialog = Gtk.FileDialog.new()
@@ -67,21 +50,21 @@ class GtkTextWindow(Gtk.ApplicationWindow):
     def on_save_response(self, dialog, result):
         try:
             gfile = dialog.save_finish(result)
-            chemin_fichier = gfile.get_path()
+            chemin_absolu = gfile.get_path()
 
-            # Récupération du texte actuel dans le buffer
+            # Récupération du texte saisi par l'utilisateur dans le buffer
             buffer = self.zone_texte.get_buffer()
-            texte_a_sauver = buffer.get_text(buffer.get_start_iter(), buffer.get_end_iter(), False)
+            texte_a_sauvegarder = buffer.get_text(buffer.get_start_iter(), buffer.get_end_iter(), False)
 
-            # Écriture du fichier avec Python
-            with open(chemin_fichier, 'w', encoding='utf-8') as f:
-                f.write(texte_a_sauver)
+            # Écriture physique sur le disque dur avec Python
+            with open(chemin_absolu, 'w', encoding='utf-8') as f:
+                f.write(texte_a_sauvegarder)
 
-            self.label_info.set_text(f"Fichier enregistré : {gfile.get_basename()}")
+            self.label_info.set_text(f"Fichier enregistré avec succès : {gfile.get_basename()}")
         except Exception as e:
             self.label_info.set_text("Enregistrement annulé ou erreur d'écriture.")
 
-    # --- STATISTIQUES (Étape précédente) ---
+    # --- ACTION : STATISTIQUES ---
     @Gtk.Template.Callback()
     def on_bouton_action_clicked(self, button):
         buffer = self.zone_texte.get_buffer()

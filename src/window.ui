@@ -15,7 +15,7 @@
         <property name="margin-start">12</property>
         <property name="margin-end">12</property>
 
-        <!-- Barre d'outils horizontale pour nos boutons -->
+        <!-- Barre d'outils horizontale pour regrouper les boutons -->
         <child>
           <object class="GtkBox">
             <property name="orientation">horizontal</property>
@@ -62,7 +62,7 @@
           </object>
         </child>
 
-        <!-- Un label de statut en bas -->
+        <!-- Un label de statut tout en bas -->
         <child>
           <object class="GtkLabel" id="label_info">
             <property name="label">Prêt...</property>
@@ -73,5 +73,4 @@
     </child>
   </template>
 </interface>
-
 
